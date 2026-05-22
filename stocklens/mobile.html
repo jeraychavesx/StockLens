@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockLens Mobile</title>
+    <style>
+        :root {
+            --bg-black: #000000;
+            --bg-soft: #0a0a0a;
+            --card-gray: #121212;
+            --accent-purple: #8b5cf6;
+            --accent-blue: #3b82f6;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- VISTA DE LOGIN --- */
+        #login-view {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            height: 100vh;
+            background: radial-gradient(circle at top, #1e1b4b 0%, #000000 70%);
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo-container h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .logo-container h1 span {
+            color: var(--accent-purple);
+        }
+
+        .login-form {
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .input-box {
+            background: var(--card-gray);
+            border: 1px solid #ffffff1a;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            width: 100%;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-box:focus {
+            border-color: var(--accent-purple);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 1rem;
+            cursor: pointer;
+        }
+
+        /* --- VISTA DE HOME --- */
+        #home-view {
+            display: none;
+            padding-bottom: 80px; /* Espacio para barra inferior */
+        }
+
+        header {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding: 0 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .stat-card {
+            background: var(--card-gray);
+            padding: 1.2rem;
+            border-radius: 16px;
+            border: 1px solid #ffffff0a;
+        }
+
+        .stat-card h3 {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .val {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .camera-action {
+            margin: 1.5rem;
+            padding: 2rem;
+            background: linear-gradient(45deg, #1e1b4b, #121212);
+            border-radius: 20px;
+            text-align: center;
+            border: 1px dashed var(--accent-purple);
+        }
+
+        .scan-btn {
+            background: var(--accent-purple);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+        }
+
+        /* Barra de navegación inferior */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: var(--bg-soft);
+            border-top: 1px solid #ffffff10;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .nav-item {
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .nav-item.active {
+            color: var(--accent-purple);
+        }
+
+        .nav-icon {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LOGIN -->
+    <section id="login-view">
+        <div class="logo-container">
+            <h1>Stock<span>Lens</span></h1>
+            <p style="color: var(--text-secondary); font-size: 0.8rem; letter-spacing: 2px;">MOBILE SCANNER</p>
+        </div>
+        <div class="login-form">
+            <input type="text" class="input-box" placeholder="Usuario">
+            <input type="password" class="input-box" placeholder="Contraseña">
+            <button class="btn-primary" onclick="showHome()">Ingresar</button>
+        </div>
+    </section>
+
+    <!-- HOME -->
+    <section id="home-view">
+        <header>
+            <h2>Dashboard</h2>
+            <div style="width: 35px; height: 35px; border-radius: 50%; background: var(--accent-blue);"></div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total</h3>
+                <div class="val">1,240</div>
+            </div>
+            <div class="stat-card">
+                <h3>Alertas</h3>
+                <div class="val" style="color: #ef4444;">04</div>
+            </div>
+        </div>
+
+        <div class="camera-action">
+            <div class="scan-btn">📷</div>
+            <p style="font-weight: 600;">Iniciar Escaneo IA</p>
+            <p style="font-size: 0.75rem; color: var(--text-secondary);">Apunta a la caja o código de barras</p>
+        </div>
+
+        <div style="padding: 1.5rem;">
+            <h3 style="margin-bottom: 1rem; font-size: 1rem;">Actividad Reciente</h3>
+            <div style="background: var(--card-gray); border-radius: 16px; overflow: hidden;">
+                <div style="padding: 1rem; border-bottom: 1px solid #ffffff05; display: flex; justify-content: space-between;">
+                    <span>Caja Herramientas</span>
+                    <span style="color: var(--accent-purple);">OK</span>
+                </div>
+                <div style="padding: 1rem; border-bottom: 1px solid #ffffff05; display: flex; justify-content: space-between;">
+                    <span>Monitor 24'</span>
+                    <span style="color: var(--accent-purple);">OK</span>
+                </div>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active"><span class="nav-icon">🏠</span>Inicio</a>
+            <a href="#" class="nav-item"><span class="nav-icon">🔍</span>Buscar</a>
+            <a href="#" class="nav-item"><span class="nav-icon">📊</span>Stats</a>
+            <a href="#" class="nav-item"><span class="nav-icon">⚙️</span>Ajustes</a>
+        </nav>
+    </section>
+
+    <script>
+        function showHome() {
+            document.getElementById('login-view').style.display = 'none';
+            document.getElementById('home-view').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
